@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
 import './css/App.css';
 import Demo from './Demo';
+import { connect } from 'react-redux';
 
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      value: 0
-    };
-    this.add = this.add.bind(this);
-    
   }
   
-  add() {
-    this.refs.changeD.changeNumb();
-    this.setState({value: this.state.value + 1});
+  onChangeNumb() {
+    this.props.dispatch({ type: 'ADD'});
   }
 
+  
   render() {
     return (
       <div className="content">
-        <button onClick={this.add}>Add</button>
+        <button onClick={this.onChangeNumb.bind(this)}>Add</button>
         <hr/>
-        <label>This is {this.state.value}</label>
+        <label>This is {this.props.myNumb}</label>
         <div className="index"></div>
-        <Demo ref="changeD"></Demo>
+        <Demo></Demo>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return { myNumb: state.value };
+}
+
+export default connect(mapStateToProps)(App);
